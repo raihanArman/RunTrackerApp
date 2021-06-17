@@ -3,6 +3,7 @@ package id.co.runtrackerapp.ui.fragments
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,13 +20,13 @@ class RunFragment: Fragment(R.layout.fragment_run), EasyPermissions.PermissionCa
 
     private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         requestPermissions()
+
         fab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
-
     }
 
     private fun requestPermissions(){
@@ -33,7 +34,7 @@ class RunFragment: Fragment(R.layout.fragment_run), EasyPermissions.PermissionCa
             return
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
                 this,
                 "You need  to acceptlocation permission to use this app",
@@ -41,6 +42,14 @@ class RunFragment: Fragment(R.layout.fragment_run), EasyPermissions.PermissionCa
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            )
+        }else{
+            EasyPermissions.requestPermissions(
+                this,
+                "You need  to acceptlocation permission to use this app",
+                Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
             )
         }
     }

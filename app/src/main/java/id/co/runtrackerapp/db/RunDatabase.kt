@@ -9,10 +9,10 @@ import id.co.runtrackerapp.db.dao.RunDao
 
 @Database(
     entities = [Run::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(Converter::class)
 abstract class RunDatabase : RoomDatabase(){
     abstract fun getRunDao() : RunDao
-
 }
